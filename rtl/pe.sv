@@ -42,8 +42,8 @@ module pe #(
   logic signed [DW-1:0] mult_out;
   logic signed [DW-1:0] mac_out;
 
-  fxp_mul #(QI,QF) u_mul (pe_input_in, weight_active, mult_out );
-  fxp_add #(QI,QF) u_add (mult_out,    pe_psum_in,    mac_out  );
+  fxp_mul #(QI,QF) u_mul (pe_input_in, weight_active, mult_out, );
+  fxp_add #(QI,QF) u_add (mult_out,    pe_psum_in,    mac_out,  );
 
   always_ff @(posedge clk or posedge rst) begin
     if (rst) begin
@@ -69,9 +69,9 @@ module pe #(
     end
     else if (pe_enabled) begin
       if(pe_valid_in)
-        pe_psum_out = mac_out;
+        pe_psum_out <= mac_out;
       else
-        pe_psum_out = pe_psum_out;
+        pe_psum_out <= pe_psum_out;
 
       pe_weight_out <= weight_active;
       pe_input_out  <= pe_input_in;
